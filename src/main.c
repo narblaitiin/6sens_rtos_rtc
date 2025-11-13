@@ -76,7 +76,7 @@ int8_t main(void)
 	printk("RTC DS3231 and internal RTC Example\n");
 
 	// enable periodic rtc sync thread
-	rtc_thread_flag = false;
+	rtc_thread_flag = true;
 
 	// start the timer to trigger the interrupt subroutine every 30 seconds
 	k_timer_start(&rtc_timer, K_NO_WAIT, K_MSEC(5000));
