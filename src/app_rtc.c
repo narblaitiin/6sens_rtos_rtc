@@ -166,7 +166,7 @@ int8_t app_rtc_periodic_sync(const struct device *rtc_dev)
     // call this periodically from a thread or workqueue
     int8_t ret = app_rtc_sync_uptime(rtc_dev);
     if (ret < 0) {
-        printk("periodic sync failed, error: %d", ret);
+        printk("periodic sync failed, error: %d\n", ret);
     }
     return 0;
 }

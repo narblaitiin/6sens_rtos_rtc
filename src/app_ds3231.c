@@ -64,7 +64,7 @@ int8_t app_i2c_read_time(const struct device *i2c_dev, struct tm *tm)
 
     ret = i2c_burst_read(i2c_dev, DS3231_I2C_ADDR, DS3231_REG_TIME, time_buf, sizeof(time_buf));
     if (ret < 0) {
-        printk("failed to read DS3231 registers. error: %d", ret);
+        printk("failed to read DS3231 registers. error: %d\n", ret);
         return ret;
     }
 
@@ -176,7 +176,7 @@ int8_t app_ds3231_periodic_sync(const struct device *i2c_dev)
     // call this periodically from a thread or workqueue
     int ret = app_ds3231_sync_uptime(i2c_dev);
     if (ret < 0) {
-        printk("periodic sync failed, error: %d", ret);
+        printk("periodic sync failed, error: %d\n", ret);
     }
     return 0;
 }
