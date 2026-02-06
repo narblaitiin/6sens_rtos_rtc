@@ -101,7 +101,6 @@ void app_ds3231_set_time(const struct device *i2c_dev, int64_t unix_time)
     struct tm tm;
     time_t t = (time_t)unix_time;
     gmtime_r(&t, &tm);  
-    //timeutil_localtime64(unix_time, &tm);
     app_i2c_write_time(i2c_dev, &tm);
 }
 
