@@ -24,7 +24,6 @@ static uint8_t bin_to_bcd(uint8_t val)
     return ((val / 10) << 4) | (val % 10);
 }
 
-
 //  ========== ds3231_read_unix ============================================================
 // reads DS3231 registers directly via I2C, bypassing counter_get_value
 static int ds3231_read_unix(uint32_t *unix_secs)
@@ -133,48 +132,11 @@ int8_t app_ds3231_set_time(const struct device *ds3231_dev, uint32_t unix_secs)
     return 0;
 }
 
-
-
-// //  ========== app_ds3231_periodic_sync ====================================================
-// // re-anchors offset every 30s to correct nRF crystal drift
-// int8_t app_ds3231_periodic_sync(const struct device *ds3231_dev)
-// {
-//     if (!device_is_ready(ds3231_dev)) {
-//         return -ENODEV;
-//     }
-
-//     // read DS3231 whole unix seconds
-//     uint32_t unix_secs;
-//     int ret = counter_get_value(ds3231_dev, &unix_secs);
-//     if (ret < 0) {
-//         printk("failed to read DS3231: %d\n", ret);
-//         return ret;
-//     }
-
-//     // read nRF internal RTC ticks at same moment
-//     const struct device *nrf_rtc = DEVICE_DT_GET(DT_NODELABEL(rtc2));
-//     uint32_t ticks;
-//     counter_get_value(nrf_rtc, &ticks);
-//     uint32_t freq   = counter_get_frequency(nrf_rtc);
-//     int64_t tick_ms = ((int64_t)ticks * 1000) / freq;
-
-//     // offset = DS3231_unix_ms - nRF_tick_ms
-//     int64_t new_offset = (int64_t)unix_secs * 1000 - tick_ms;
-
-//     k_mutex_lock(&offset_mutex, K_FOREVER);
-//     rtc_offset_ms = new_offset;
-//     k_mutex_unlock(&offset_mutex);
-
-//     printk("sync: DS3231 = %u s, tick_ms = %lld ms, offset = %lld ms\n",
-//            unix_secs, tick_ms, new_offset);
-//     return 0;
-// }
-
 //  ========== app_ds3231_periodic_sync ====================================================
 int8_t app_ds3231_periodic_sync(const struct device *ds3231_dev)
 {
     uint32_t unix_secs;
-    int ret = ds3231_read_unix(&unix_secs);   // ← direct I2C, not counter_get_value
+    int ret = ds3231_read_unix(&unix_secs);   // direct I2C, not counter_get_value
     if (ret < 0) {
         printk("DS3231 periodic sync failed: %d\n", ret);
         return ret;
