@@ -58,7 +58,7 @@ int8_t main(void)
         printk("failed to initialize DS3231\n");
         return 0;
     }
-    app_ds3231_set_time(ds3231_dev, 1741773600);
+    app_ds3231_set_time(ds3231_dev, 1773741600);
 
     // start nRF internal RTC counter
     const struct device *nrf_rtc = DEVICE_DT_GET(DT_NODELABEL(rtc2));
